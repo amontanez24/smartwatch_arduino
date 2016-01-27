@@ -55,21 +55,33 @@ bool fingerDown = false;
 int skipFrame = 0;
 int a = 0;
 String day;
+//char day[11];
 String clk;
+//char clk[6];
 String sunrise;
+//char sunrise[9];
 String sunset;
+//char sunset[9];
 String temp;
+//char temp[4];
 String humidity;
+//char humidity[4];
 String high;
+//char high[4];
 String low;
+//char low[4];
 String feel;
+//char feel[4];
 String precip;
+//char precip[5];
 int drawn = 0;
 String delimiter = "&;";
-String  token;
+String  current;
 int i;
-String stuff[18];
-String sub;
+String data[18];
+String remaining;
+//crreate boolean to keep track of which package we're on
+boolean first = false;
 int j = 0;
 
 // For better pressure precision, we need to know the resistance
@@ -94,22 +106,21 @@ void setup(void) {
   tft.setRotation(0);
   bmpDraw("orange.bmp", 0, 0);
 //works well
-      tft.setRotation(1);
-      tft.setCursor(30, 20);
-      tft.setTextColor(ILI9341_RED);    
-      tft.setTextSize(9);
-      tft.print("12:30"); 
-      tft.setCursor(25, 160);
-      tft.setTextColor(ILI9341_WHITE);    
-      tft.setTextSize(7);
-      tft.print("12"); 
+  tft.setRotation(1);
+  tft.setCursor(30, 20);
+  tft.setTextColor(ILI9341_RED);    
+  tft.setTextSize(9);
+  tft.print("12:30");
+  tft.setCursor(25, 160);
+  tft.setTextColor(ILI9341_WHITE);    
+  tft.setTextSize(7);
+  tft.print("12"); 
   a= 1;
 }
 
 void loop()
 
 {
-   // tft.setRotation(3);
     while(Serial.available()){
       delay(3);
       char c = Serial.read();
@@ -117,30 +128,50 @@ void loop()
   }
   if(readString.length() > 0){
     Serial.println("got shit");
-    
     for(int k = 0; k <18; k++){
-      stuff[k] = "";
-     }  
-      
+      data[k] = "";
+    }
+ 
     //time to parse this...
     j = 0;
     i = 0;
-
     while(i < readString.length()){
-      sub = readString.substring(i,readString.length());
-      token = sub.substring(0, sub.indexOf(delimiter));
-      i = i + token.length()+ 2;
-      stuff[j] =  token;
+      remaining = readString.substring(i,readString.length());
+      current = remaining.substring(0, remaining.indexOf(delimiter));
+      i = i + current.length()+ 2;
+      data[j] =  current;
       j = j + 1;
     }
+
     for(int q = 0; q <18; q++){
-      Serial.println(stuff[q]);
-      
+      Serial.println(data[q]);
+      Serial.println(q);
+      if(data[q] == "dat"){
+        //day = data[q+1];
+      }else if(data[q] == "tmp"){
+        //temp = data[q+1];
+      }else if(data[q] == "hum"){
+        //humidity = data[q+1];
+      }else if(data[q] == "hig"){
+        //high = data[q+1];
+      }else if(data[q] == "low"){
+        //low = data[q+1];
+      }else if(data[q] == "fee"){
+        //feel = data[q+1];
+      }else if(data[q] == "pre"){
+        //precip = data[q+1];
+      }else if(data[q] == "sur"){
+        //sunrise = data[q+1];
+      }else if(data[q] == "sus"){
+        //sunset = data[q+1];
+      }else if(data[q] == "clk"){
+        //clk = data[q + 1];
+      }
     }
   }
      
-     sub = "";
-     token = "";
+     remaining = "";
+     current = "";
      readString = "";
   // Retrieve a point  
   TSPoint p = ts.getPoint();
@@ -225,29 +256,27 @@ void loop()
       tft.setCursor(30, 20);
       tft.setTextColor(ILI9341_RED);    
       tft.setTextSize(9);
-      tft.print("12:30"); 
-      tft.setCursor(30, 70);
+      //tft.print("12:30");
+      tft.print(data[3]);
+      tft.setCursor(25, 160);
       tft.setTextColor(ILI9341_WHITE);    
-      tft.setTextSize(2);
-      tft.print("12"); 
-  
-  
-  
+      tft.setTextSize(7);
+      tft.print("12");
+      
   
   }
+  
   if (a ==2 && drawn == 0){
-   tft.setRotation(0);
+    tft.setRotation(0);
     bmpDraw("yellow.bmp", 0, 0);
     drawn = 1;
-tft.setRotation(3);
-    
+    tft.setRotation(3);
   }
   if (a ==3&& drawn == 0){
     tft.setRotation(0);
     drawn = 1;
     bmpDraw("purple.bmp", 0, 0);
-tft.setRotation(3);
-   
+    tft.setRotation(3);
 
   }
   if (a ==4&& drawn == 0){
@@ -255,15 +284,13 @@ tft.setRotation(3);
     //bmpDraw("purple.bmp", 0, 0);
     //tft.print(a);
 
-
    
 
   }
   if (a ==5&& drawn == 0){
    drawn = 1;
-  tft.fillScreen(ILI9341_BLACK);
-    
-//tft.print(a);
+   tft.fillScreen(ILI9341_BLACK);
+
   } 
 
    }
