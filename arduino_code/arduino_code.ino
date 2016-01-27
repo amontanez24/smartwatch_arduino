@@ -77,11 +77,9 @@ String precip;
 int drawn = 0;
 String delimiter = "&;";
 String  current;
+String tag;
 int i;
-String data[18];
 String remaining;
-//crreate boolean to keep track of which package we're on
-boolean first = false;
 int j = 0;
 
 // For better pressure precision, we need to know the resistance
@@ -128,46 +126,64 @@ void loop()
   }
   if(readString.length() > 0){
     Serial.println("got shit");
-    for(int k = 0; k <18; k++){
+    /*for(int k = 0; k <18; k++){
       data[k] = "";
-    }
+    }*/
  
     //time to parse this...
     j = 0;
     i = 0;
     while(i < readString.length()){
       remaining = readString.substring(i,readString.length());
-      current = remaining.substring(0, remaining.indexOf(delimiter));
-      i = i + current.length()+ 2;
-      data[j] =  current;
+      current = remaining.substring(3, remaining.indexOf(delimiter));
+      tag = remaining.substring(0,3);
+      i = i + current.length()+ tag.length() + 2;
+      if(tag == "dat"){
+        day = current;
+        //strcpy(day,current.c_str());
+      }else if(tag == "tmp"){
+        temp = current;
+        //strcpy(temp,current.c_str());
+      }else if(tag == "hum"){
+        humidity = current;
+        //strcpy(humidity,current.c_str());
+      }else if(tag == "hig"){
+        high = current;
+        //strcpy(high,current.c_str());
+      }else if(tag == "low"){
+        low = current;
+        //strcpy(low,current.c_str());
+      }else if(tag == "fee"){
+        feel = current;
+        //strcpy(feel,current.c_str());
+      }else if(tag == "pre"){
+        precip = current;
+        //strcpy(precip,current.c_str());
+      }else if(tag == "sur"){
+        sunrise = current;
+        //strcpy(sunrise,current.c_str());
+      }else if(tag == "sus"){
+        sunset = current;
+        //strcpy(sunset,current.c_str());
+      }else if(tag == "clk"){
+        clk = current;
+        //strcpy(clk,current.c_str());
+      }
+      //data[j] =  current;
       j = j + 1;
     }
-
-    for(int q = 0; q <18; q++){
-      Serial.println(data[q]);
-      Serial.println(q);
-      if(data[q] == "dat"){
-        //day = data[q+1];
-      }else if(data[q] == "tmp"){
-        //temp = data[q+1];
-      }else if(data[q] == "hum"){
-        //humidity = data[q+1];
-      }else if(data[q] == "hig"){
-        //high = data[q+1];
-      }else if(data[q] == "low"){
-        //low = data[q+1];
-      }else if(data[q] == "fee"){
-        //feel = data[q+1];
-      }else if(data[q] == "pre"){
-        //precip = data[q+1];
-      }else if(data[q] == "sur"){
-        //sunrise = data[q+1];
-      }else if(data[q] == "sus"){
-        //sunset = data[q+1];
-      }else if(data[q] == "clk"){
-        //clk = data[q + 1];
-      }
-    }
+    /*
+    Serial.println(day);
+    Serial.println(temp);
+    Serial.println(humidity);
+    Serial.println(high);
+    Serial.println(low);
+    Serial.println(feel);
+    Serial.println(precip);
+    Serial.println(sunrise);
+    Serial.println(sunset);
+    Serial.println(clk);
+    */
   }
      
      remaining = "";
@@ -257,12 +273,12 @@ void loop()
       tft.setTextColor(ILI9341_RED);    
       tft.setTextSize(9);
       //tft.print("12:30");
-      tft.print(data[3]);
+      tft.print(clk);
       tft.setCursor(25, 160);
       tft.setTextColor(ILI9341_WHITE);    
       tft.setTextSize(7);
-      tft.print("12");
-      
+      //tft.print("12");
+      tft.print(temp);
   
   }
   
