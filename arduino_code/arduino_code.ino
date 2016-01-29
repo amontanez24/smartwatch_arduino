@@ -105,10 +105,10 @@ void setup(void) {
   bmpDraw("orange.bmp", 0, 0);
 //works well
   tft.setRotation(1);
-  tft.setCursor(30, 20);
+  tft.setCursor(25, 20);
   tft.setTextColor(ILI9341_RED);    
-  tft.setTextSize(9);
-  tft.print("12:30");
+  tft.setTextSize(7);
+  tft.print("12:30AM");
   tft.setCursor(25, 160);
   tft.setTextColor(ILI9341_WHITE);    
   tft.setTextSize(7);
@@ -172,18 +172,7 @@ void loop()
       //data[j] =  current;
       j = j + 1;
     }
-    /*
-    Serial.println(day);
-    Serial.println(temp);
-    Serial.println(humidity);
-    Serial.println(high);
-    Serial.println(low);
-    Serial.println(feel);
-    Serial.println(precip);
-    Serial.println(sunrise);
-    Serial.println(sunset);
-    Serial.println(clk);
-    */
+
   }
      
      remaining = "";
@@ -269,15 +258,13 @@ void loop()
     tft.setRotation(0);
     bmpDraw("orange.bmp", 0, 0);
       tft.setRotation(1);
-      tft.setCursor(30, 20);
+      tft.setCursor(25, 20);
       tft.setTextColor(ILI9341_RED);    
-      tft.setTextSize(9);
-      //tft.print("12:30");
+      tft.setTextSize(7);
       tft.print(clk);
       tft.setCursor(25, 160);
       tft.setTextColor(ILI9341_WHITE);    
       tft.setTextSize(7);
-      //tft.print("12");
       tft.print(temp);
   
   }
