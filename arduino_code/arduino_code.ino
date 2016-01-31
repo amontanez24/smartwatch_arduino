@@ -56,26 +56,18 @@ int skipFrame = 0;
 int a = 0;
 String day;
 String dayOfWeek;
-//char day[11];
 String clk;
-//char clk[6];
 String sunrise;
-//char sunrise[9];
 String sunset;
-//char sunset[9];
 String temp;
-//char temp[4];
 String humidity;
-//char humidity[4];
 String high;
-//char high[4];
 String low;
-//char low[4];
 String feel;
-//char feel[4];
 String precip;
-//char precip[5];
 String description;
+String txt;
+String phoneNum;
 int drawn = 0;
 String delimiter = "&;";
 String  current;
@@ -103,19 +95,24 @@ void setup(void) {
     Serial.println("failed!");
   }
   Serial.println("OK!");
-  tft.setRotation(0);
-  bmpDraw("orange.bmp", 0, 0);
-//works well
-  tft.setRotation(1);
-  tft.setCursor(15, 20);
-  tft.setTextColor(ILI9341_RED);    
-  tft.setTextSize(7);
-  tft.print("12:30AM");
-  tft.setCursor(25, 160);
-  tft.setTextColor(ILI9341_WHITE);    
-  tft.setTextSize(7);
-  tft.print("12"); 
-  a= 1;
+    tft.setRotation(0);
+    bmpDraw("orange.bmp", 0, 0);
+    tft.setRotation(1);
+    tft.setCursor(15, 20);
+    tft.setTextColor(ILI9341_RED);    
+    tft.setTextSize(7);
+    tft.print(clk);
+    tft.setCursor(25, 160);
+    tft.setTextColor(ILI9341_WHITE);    
+    tft.setTextSize(7);
+    tft.print(temp);
+    tft.setCursor(160,150);
+    tft.setTextColor(ILI9341_WHITE);
+    tft.setTextSize(5);
+    tft.print(dayOfWeek);
+    tft.setCursor(160, 210);
+    tft.setTextSize(2);
+    tft.print(day);
 }
 
 void loop()
@@ -128,9 +125,6 @@ void loop()
   }
   if(readString.length() > 0){
     Serial.println("got shit");
-    /*for(int k = 0; k <18; k++){
-      data[k] = "";
-    }*/
  
     //time to parse this...
     j = 0;
@@ -142,40 +136,32 @@ void loop()
       i = i + current.length()+ tag.length() + 2;
       if(tag == "dat"){
         day = current;
-        //strcpy(day,current.c_str());
       }else if(tag == "tmp"){
         temp = current;
-        //strcpy(temp,current.c_str());
       }else if(tag == "hum"){
         humidity = current;
-        //strcpy(humidity,current.c_str());
       }else if(tag == "hig"){
         high = current;
-        //strcpy(high,current.c_str());
       }else if(tag == "low"){
         low = current;
-        //strcpy(low,current.c_str());
       }else if(tag == "fee"){
         feel = current;
-        //strcpy(feel,current.c_str());
       }else if(tag == "pre"){
         precip = current;
-        //strcpy(precip,current.c_str());
       }else if(tag == "sur"){
         sunrise = current;
-        //strcpy(sunrise,current.c_str());
       }else if(tag == "sus"){
         sunset = current;
-        //strcpy(sunset,current.c_str());
       }else if(tag == "clk"){
         clk = current;
-        //strcpy(clk,current.c_str());
       }else if(tag=="des"){
         description = current;
       }else if(tag=="day"){
         dayOfWeek = current;
+      }else if(tag=="txt"){
+        txt = current;
       }
-      //data[j] =  current;
+   
       j = j + 1;
     }
 
@@ -243,11 +229,10 @@ void loop()
      } else if (p.y - startY  > SWIPE){
      //tft.println("SWIPE RIGHT");
      drawn = 0;
-     a =a + 1;
+     a = a + 1;
       
       fingerDown = false;
      }
-
 
      if (a == 0){
       a = 5;
@@ -303,8 +288,9 @@ void loop()
     tft.print(low);
     tft.setCursor(61,197);
     tft.print(precip);
-    
-    
+    tft.setCursor(160,160);
+    tft.setTextSize(7);
+    tft.print(temp);
   }
   if (a ==3&& drawn == 0){
     tft.setRotation(0);
@@ -314,12 +300,10 @@ void loop()
 
   }
   if (a ==4&& drawn == 0){
+    tft.setRotation(0);
+    bmpDraw("txtmsg.bmp",0,0);
     drawn = 1;
-    //bmpDraw("purple.bmp", 0, 0);
-    //tft.print(a);
-
-   
-
+    tft.setRotation(1);
   }
   if (a ==5&& drawn == 0){
    drawn = 1;
