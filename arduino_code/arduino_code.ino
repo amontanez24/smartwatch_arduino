@@ -98,10 +98,10 @@ void setup(void) {
     tft.setRotation(0);
     bmpDraw("orange.bmp", 0, 0);
     tft.setRotation(1);
-    tft.setCursor(15, 20);
+    tft.setCursor(15, 35);
     tft.setTextColor(ILI9341_RED);    
     tft.setTextSize(7);
-    tft.print(clk);
+    tft.print("12:30AM");
     tft.setCursor(25, 160);
     tft.setTextColor(ILI9341_WHITE);    
     tft.setTextSize(7);
@@ -249,7 +249,7 @@ void loop()
     tft.setRotation(0);
     bmpDraw("orange.bmp", 0, 0);
     tft.setRotation(1);
-    tft.setCursor(15, 20);
+    tft.setCursor(20, 20);
     tft.setTextColor(ILI9341_RED);    
     tft.setTextSize(7);
     tft.print(clk);
