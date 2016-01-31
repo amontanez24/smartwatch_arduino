@@ -55,6 +55,7 @@ bool fingerDown = false;
 int skipFrame = 0;
 int a = 0;
 String day;
+String dayOfWeek;
 //char day[11];
 String clk;
 //char clk[6];
@@ -74,6 +75,7 @@ String feel;
 //char feel[4];
 String precip;
 //char precip[5];
+String description;
 int drawn = 0;
 String delimiter = "&;";
 String  current;
@@ -168,6 +170,10 @@ void loop()
       }else if(tag == "clk"){
         clk = current;
         //strcpy(clk,current.c_str());
+      }else if(tag=="des"){
+        description = current;
+      }else if(tag=="day"){
+        dayOfWeek = current;
       }
       //data[j] =  current;
       j = j + 1;
@@ -257,15 +263,22 @@ void loop()
     drawn = 1;
     tft.setRotation(0);
     bmpDraw("orange.bmp", 0, 0);
-      tft.setRotation(1);
-      tft.setCursor(15, 20);
-      tft.setTextColor(ILI9341_RED);    
-      tft.setTextSize(7);
-      tft.print(clk);
-      tft.setCursor(25, 160);
-      tft.setTextColor(ILI9341_WHITE);    
-      tft.setTextSize(7);
-      tft.print(temp);
+    tft.setRotation(1);
+    tft.setCursor(15, 20);
+    tft.setTextColor(ILI9341_RED);    
+    tft.setTextSize(7);
+    tft.print(clk);
+    tft.setCursor(25, 160);
+    tft.setTextColor(ILI9341_WHITE);    
+    tft.setTextSize(7);
+    tft.print(temp);
+    tft.setCursor(160,150);
+    tft.setTextColor(ILI9341_WHITE);
+    tft.setTextSize(5);
+    tft.print(dayOfWeek);
+    tft.setCursor(160, 210);
+    tft.setTextSize(2);
+    tft.print(day);
   
   }
   
@@ -273,7 +286,25 @@ void loop()
     tft.setRotation(0);
     bmpDraw("yellow.bmp", 0, 0);
     drawn = 1;
-    tft.setRotation(3);
+    tft.setRotation(1);
+    tft.setCursor(88, 22);
+    tft.setTextColor(ILI9341_MAROON);    
+    tft.setTextSize(2);
+    tft.print(feel);
+    tft.setCursor(56, 51);
+    tft.print(description);
+    tft.setCursor(77, 81);
+    tft.print(sunrise);
+    tft.setCursor(77,110);
+    tft.print(sunset);
+    tft.setCursor(53,138);
+    tft.print(high);
+    tft.setCursor(50,168);
+    tft.print(low);
+    tft.setCursor(61,197);
+    tft.print(precip);
+    
+    
   }
   if (a ==3&& drawn == 0){
     tft.setRotation(0);
