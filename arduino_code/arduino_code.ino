@@ -67,7 +67,7 @@ String feel;
 String precip;
 String description;
 String txt;
-String phoneNum;
+String from;
 int drawn = 0;
 String delimiter = "&;";
 String  current;
@@ -96,23 +96,7 @@ void setup(void) {
   }
   Serial.println("OK!");
     tft.setRotation(0);
-    bmpDraw("orange.bmp", 0, 0);
-    tft.setRotation(1);
-    tft.setCursor(15, 35);
-    tft.setTextColor(ILI9341_RED);    
-    tft.setTextSize(7);
-    tft.print("12:30AM");
-    tft.setCursor(25, 160);
-    tft.setTextColor(ILI9341_WHITE);    
-    tft.setTextSize(7);
-    tft.print(temp);
-    tft.setCursor(160,150);
-    tft.setTextColor(ILI9341_WHITE);
-    tft.setTextSize(5);
-    tft.print(dayOfWeek);
-    tft.setCursor(160, 210);
-    tft.setTextSize(2);
-    tft.print(day);
+    bmpDraw("open.bmp", 0, 0);
 }
 
 void loop()
@@ -160,6 +144,8 @@ void loop()
         dayOfWeek = current;
       }else if(tag=="txt"){
         txt = current;
+      }else if(tag=="frm"){
+        from = current;
       }
    
       j = j + 1;
@@ -173,11 +159,6 @@ void loop()
   // Retrieve a point  
   TSPoint p = ts.getPoint();
   
- /*
-  Serial.print("X = "); Serial.print(p.x);
-  Serial.print("\tY = "); Serial.print(p.y);
-  Serial.print("\tPressure = "); Serial.println(p.z);  
- */
 
 
   // we have some minimum pressure we consider 'valid'
@@ -195,11 +176,6 @@ void loop()
   p.x = map(p.x, TS_MINX, TS_MAXX, 0, tft.width());
   p.y = map(p.y, TS_MINY, TS_MAXY, 0, tft.height());
 
-  /*
-  Serial.print("("); Serial.print(p.x);
-  Serial.print(", "); Serial.print(p.y);
-  Serial.println(")");
-  */
 
   /*
    * This is the code to sense if swipe right or swipe left
@@ -235,10 +211,10 @@ void loop()
      }
 
      if (a == 0){
-      a = 5;
+      a = 4;
      }
 
-      if (a == 6){
+      if (a == 5){
       a = 1;
      }
 
@@ -304,12 +280,15 @@ void loop()
     bmpDraw("txtmsg.bmp",0,0);
     drawn = 1;
     tft.setRotation(1);
+    tft.setTextSize(2);
+    tft.setTextColor(ILI9341_MAROON);
+    tft.setCursor(114,44);
+    tft.print(from);
+    tft.setTextColor(ILI9341_BLACK);
+    tft.setTextSize(3);
+    tft.setCursor(5,111);
+    tft.print(txt);
   }
-  if (a ==5&& drawn == 0){
-   drawn = 1;
-   tft.fillScreen(ILI9341_BLACK);
-
-  } 
 
    }
 }
