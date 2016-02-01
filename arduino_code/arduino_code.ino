@@ -86,6 +86,7 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 void setup(void) {
   Serial.begin(9600);
   pinMode(0, INPUT);
+  pinMode(A0, OUTPUT);
   
   tft.begin();
   tft.fillScreen(ILI9341_BLACK);
@@ -98,7 +99,72 @@ void setup(void) {
     tft.setRotation(0);
     bmpDraw("open.bmp", 0, 0);
 }
-
+void loadText(){
+    tft.setRotation(0);
+    bmpDraw("txtmsg.bmp",0,0);
+    drawn = 1;
+    tft.setRotation(1);
+    tft.setTextSize(2);
+    tft.setTextColor(ILI9341_MAROON);
+    tft.setCursor(114,44);
+    tft.print(from);
+    tft.setTextColor(ILI9341_BLACK);
+    tft.setTextSize(3);
+    tft.setCursor(5,111);
+    tft.print(txt);
+}
+void loadTime(){
+    tft.setRotation(0);
+    bmpDraw("orange.bmp", 0, 0);
+    drawn = 1;
+    tft.setRotation(1);
+    tft.setCursor(20, 20);
+    tft.setTextColor(ILI9341_RED);    
+    tft.setTextSize(7);
+    tft.print(clk);
+    tft.setCursor(25, 160);
+    tft.setTextColor(ILI9341_WHITE);    
+    tft.setTextSize(7);
+    tft.print(temp);
+    tft.setCursor(160,150);
+    tft.setTextColor(ILI9341_WHITE);
+    tft.setTextSize(5);
+    tft.print(dayOfWeek);
+    tft.setCursor(160, 210);
+    tft.setTextSize(2);
+    tft.print(day);
+}
+void loadWeather(){
+    tft.setRotation(0);
+    bmpDraw("yellow.bmp", 0, 0);
+    drawn = 1;
+    tft.setRotation(1);
+    tft.setCursor(88, 22);
+    tft.setTextColor(ILI9341_MAROON);    
+    tft.setTextSize(2);
+    tft.print(feel);
+    tft.setCursor(56, 51);
+    tft.print(description);
+    tft.setCursor(77, 81);
+    tft.print(sunrise);
+    tft.setCursor(77,110);
+    tft.print(sunset);
+    tft.setCursor(53,138);
+    tft.print(high);
+    tft.setCursor(50,168);
+    tft.print(low);
+    tft.setCursor(61,197);
+    tft.print(precip);
+    tft.setCursor(160,160);
+    tft.setTextSize(7);
+    tft.print(temp);
+}
+void loadMusic(){
+  tft.setRotation(0);
+  bmpDraw("purple.bmp", 0, 0);
+  drawn = 1;
+  tft.setRotation(3);
+}
 void loop()
 
 {
@@ -146,6 +212,7 @@ void loop()
         txt = current;
       }else if(tag=="frm"){
         from = current;
+        loadText();
       }
    
       j = j + 1;
@@ -187,111 +254,39 @@ void loop()
    } else {
      skipFrame = 0;
      if(p.x - startX > SWIPE){
-     //tft.println("SWIPE UP");
-     //drawn = 0;
-     
       fingerDown = false;
      } else if (startX - p.x > SWIPE ){
-     //tft.println("SWIPE DOWN");
-     //drawn = 0;
-      
       fingerDown = false;
      } else if (startY - p.y > SWIPE){
-     //tft.println("SWIPE LEFT");
-     drawn = 0;
-      
+      drawn = 0;
+      //Serial.println(a);
       a =a -1;
       fingerDown = false;
      } else if (p.y - startY  > SWIPE){
-     //tft.println("SWIPE RIGHT");
      drawn = 0;
      a = a + 1;
-      
-      fingerDown = false;
+     //Serial.println(a); 
+     fingerDown = false;
      }
-
      if (a == 0){
       a = 4;
      }
-
-      if (a == 5){
+     if (a == 5){
       a = 1;
      }
-
-    Serial.println(a);
-
-  if (a ==1 && drawn == 0){
-    drawn = 1;
-    tft.setRotation(0);
-    bmpDraw("orange.bmp", 0, 0);
-    tft.setRotation(1);
-    tft.setCursor(20, 20);
-    tft.setTextColor(ILI9341_RED);    
-    tft.setTextSize(7);
-    tft.print(clk);
-    tft.setCursor(25, 160);
-    tft.setTextColor(ILI9341_WHITE);    
-    tft.setTextSize(7);
-    tft.print(temp);
-    tft.setCursor(160,150);
-    tft.setTextColor(ILI9341_WHITE);
-    tft.setTextSize(5);
-    tft.print(dayOfWeek);
-    tft.setCursor(160, 210);
-    tft.setTextSize(2);
-    tft.print(day);
-  
-  }
-  
-  if (a ==2 && drawn == 0){
-    tft.setRotation(0);
-    bmpDraw("yellow.bmp", 0, 0);
-    drawn = 1;
-    tft.setRotation(1);
-    tft.setCursor(88, 22);
-    tft.setTextColor(ILI9341_MAROON);    
-    tft.setTextSize(2);
-    tft.print(feel);
-    tft.setCursor(56, 51);
-    tft.print(description);
-    tft.setCursor(77, 81);
-    tft.print(sunrise);
-    tft.setCursor(77,110);
-    tft.print(sunset);
-    tft.setCursor(53,138);
-    tft.print(high);
-    tft.setCursor(50,168);
-    tft.print(low);
-    tft.setCursor(61,197);
-    tft.print(precip);
-    tft.setCursor(160,160);
-    tft.setTextSize(7);
-    tft.print(temp);
-  }
-  if (a ==3&& drawn == 0){
-    tft.setRotation(0);
-    drawn = 1;
-    bmpDraw("purple.bmp", 0, 0);
-    tft.setRotation(3);
-
-  }
-  if (a ==4&& drawn == 0){
-    tft.setRotation(0);
-    bmpDraw("txtmsg.bmp",0,0);
-    drawn = 1;
-    tft.setRotation(1);
-    tft.setTextSize(2);
-    tft.setTextColor(ILI9341_MAROON);
-    tft.setCursor(114,44);
-    tft.print(from);
-    tft.setTextColor(ILI9341_BLACK);
-    tft.setTextSize(3);
-    tft.setCursor(5,111);
-    tft.print(txt);
-  }
-
+     if(a==1 && drawn==0){
+      loadTime();
+     }else if(a==2 && drawn==0){
+      loadWeather();
+     }else if(a==3 && drawn==0){
+      loadMusic();
+     }else if(a==3 && drawn==0){
+      loadText();
+     }
    }
 }
+
+  
 
 // This function opens a Windows Bitmap (BMP) file and
 // displays it at the given coordinates.  It's sped up
