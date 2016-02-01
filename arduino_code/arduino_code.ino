@@ -57,15 +57,15 @@ int a = 0;
 String day;
 String dayOfWeek;
 String clk;
-String sunrise;
-String sunset;
+//String sunrise;
+//String sunset;
 String temp;
-String humidity;
-String high;
-String low;
-String feel;
-String precip;
-String description;
+//String humidity;
+//String high;
+//String low;
+//String feel;
+//String precip;
+//String description;
 String txt;
 String from;
 int drawn = 0;
@@ -161,6 +161,7 @@ void loadWeather(int d){
   tft.setCursor(88, 22);
   tft.setTextColor(ILI9341_MAROON);    
   tft.setTextSize(2);
+  /*
   tft.print(feel);
   tft.setCursor(56, 51);
   tft.print(description);
@@ -177,6 +178,7 @@ void loadWeather(int d){
   tft.setCursor(160,160);
   tft.setTextSize(7);
   tft.print(temp);
+  */
 }
 void loadMusic(int d){
   if(d == 1){
@@ -200,7 +202,7 @@ void loop()
       readString += c; 
   }
   if(readString.length() > 0){
-    Serial.println("got shit");
+    //Serial.println("got shit");
  
     //time to parse this...
     j = 0;
@@ -215,23 +217,23 @@ void loop()
       }else if(tag == "tmp"){
         temp = current;
       }else if(tag == "hum"){
-        humidity = current;
+        //humidity = current;
       }else if(tag == "hig"){
-        high = current;
+        //high = current;
       }else if(tag == "low"){
-        low = current;
+        //low = current;
       }else if(tag == "fee"){
-        feel = current;
+        //feel = current;
       }else if(tag == "pre"){
-        precip = current;
+        //precip = current;
       }else if(tag == "sur"){
-        sunrise = current;
+        //sunrise = current;
       }else if(tag == "sus"){
-        sunset = current;
+        //sunset = current;
       }else if(tag == "clk"){
         clk = current;
       }else if(tag=="des"){
-        description = current;
+        //description = current;
       }else if(tag=="day"){
         dayOfWeek = current;
       }else if(tag=="txt"){
@@ -318,6 +320,18 @@ void loop()
       loadMusic(swipeDirection);
      }else if(a==4 && drawn==0){
       loadText(swipeDirection);
+     }
+     if(a==3 && drawn ==1 && p.z > MINPRESSURE && p.z < MAXPRESSURE){
+      if(p.y < 100 && p.x >82 &&p.x<165){
+        Serial.write("<");
+        delay(500);
+      }else if(p.y > 170 && p.x >82 &&p.x<165){
+        Serial.write(">");
+        delay(500);
+      }else if(p.y > 100 && p.y <170 && p.x >82 &&p.x<165){
+        Serial.write("^");
+        delay(500);
+      }
      }
    }
 }
