@@ -75,7 +75,7 @@ String tag;
 int i;
 String remaining;
 int j = 0;
-
+int swipeDirection; //left=1 right=2
 // For better pressure precision, we need to know the resistance
 // between X+ and X- Use any multimeter to read it
 // For the one we're using, its 300 ohms across the X plate
@@ -99,69 +99,95 @@ void setup(void) {
     tft.setRotation(0);
     bmpDraw("open.bmp", 0, 0);
 }
-void loadText(){
+void loadText(int d){
+  if(d == 1){
+    tft.setRotation(2);
+    bmpDraw("txtmsgL.bmp",0,0);
+  }else{
     tft.setRotation(0);
     bmpDraw("txtmsg.bmp",0,0);
-    drawn = 1;
-    tft.setRotation(1);
-    tft.setTextSize(2);
-    tft.setTextColor(ILI9341_MAROON);
-    tft.setCursor(114,44);
-    tft.print(from);
-    tft.setTextColor(ILI9341_BLACK);
-    tft.setTextSize(3);
-    tft.setCursor(5,111);
-    tft.print(txt);
+  }
+  drawn = 1;
+  tft.setRotation(1);
+  tft.setTextSize(2);
+  tft.setTextColor(ILI9341_MAROON);
+  tft.setCursor(114,44);
+  tft.print(from);
+  tft.setTextColor(ILI9341_BLACK);
+  tft.setTextSize(3);
+  tft.setCursor(5,111);
+  tft.print(txt);
 }
-void loadTime(){
+void loadTime(int d){
+  if(d == 1){
+    tft.setRotation(2);
+    bmpDraw("orangeL.bmp",0,0);
+  }else{
     tft.setRotation(0);
-    bmpDraw("orange.bmp", 0, 0);
-    drawn = 1;
-    tft.setRotation(1);
-    tft.setCursor(20, 20);
-    tft.setTextColor(ILI9341_RED);    
-    tft.setTextSize(7);
-    tft.print(clk);
-    tft.setCursor(25, 160);
-    tft.setTextColor(ILI9341_WHITE);    
-    tft.setTextSize(7);
-    tft.print(temp);
-    tft.setCursor(160,150);
-    tft.setTextColor(ILI9341_WHITE);
-    tft.setTextSize(5);
-    tft.print(dayOfWeek);
-    tft.setCursor(160, 210);
-    tft.setTextSize(2);
-    tft.print(day);
+    bmpDraw("orange.bmp",0,0);
+  }
+  //tft.setRotation(0);
+  //bmpDraw("orange.bmp", 0, 0);
+  drawn = 1;
+  tft.setRotation(1);
+  tft.setCursor(20, 20);
+  tft.setTextColor(ILI9341_RED);    
+  tft.setTextSize(7);
+  tft.print(clk);
+  tft.setCursor(25, 160);
+  tft.setTextColor(ILI9341_WHITE);    
+  tft.setTextSize(7);
+  tft.print(temp);
+  tft.setCursor(160,150);
+  tft.setTextColor(ILI9341_WHITE);
+  tft.setTextSize(5);
+  tft.print(dayOfWeek);
+  tft.setCursor(160, 210);
+  tft.setTextSize(2);
+  tft.print(day);
 }
-void loadWeather(){
+void loadWeather(int d){
+  if(d == 1){
+    tft.setRotation(2);
+    bmpDraw("yellowL.bmp",0,0);
+  }else{
     tft.setRotation(0);
-    bmpDraw("yellow.bmp", 0, 0);
-    drawn = 1;
-    tft.setRotation(1);
-    tft.setCursor(88, 22);
-    tft.setTextColor(ILI9341_MAROON);    
-    tft.setTextSize(2);
-    tft.print(feel);
-    tft.setCursor(56, 51);
-    tft.print(description);
-    tft.setCursor(77, 81);
-    tft.print(sunrise);
-    tft.setCursor(77,110);
-    tft.print(sunset);
-    tft.setCursor(53,138);
-    tft.print(high);
-    tft.setCursor(50,168);
-    tft.print(low);
-    tft.setCursor(61,197);
-    tft.print(precip);
-    tft.setCursor(160,160);
-    tft.setTextSize(7);
-    tft.print(temp);
+    bmpDraw("yellow.bmp",0,0);
+  }
+  //tft.setRotation(0);
+  //bmpDraw("yellow.bmp", 0, 0);
+  drawn = 1;
+  tft.setRotation(1);
+  tft.setCursor(88, 22);
+  tft.setTextColor(ILI9341_MAROON);    
+  tft.setTextSize(2);
+  tft.print(feel);
+  tft.setCursor(56, 51);
+  tft.print(description);
+  tft.setCursor(77, 81);
+  tft.print(sunrise);
+  tft.setCursor(77,110);
+  tft.print(sunset);
+  tft.setCursor(53,138);
+  tft.print(high);
+  tft.setCursor(50,168);
+  tft.print(low);
+  tft.setCursor(61,197);
+  tft.print(precip);
+  tft.setCursor(160,160);
+  tft.setTextSize(7);
+  tft.print(temp);
 }
-void loadMusic(){
-  tft.setRotation(0);
-  bmpDraw("purple.bmp", 0, 0);
+void loadMusic(int d){
+  if(d == 1){
+    tft.setRotation(2);
+    bmpDraw("purpleL.bmp",0,0);
+  }else{
+    tft.setRotation(0);
+    bmpDraw("purple.bmp",0,0);
+  }
+  //tft.setRotation(0);
+  //bmpDraw("purple.bmp", 0, 0);
   drawn = 1;
   tft.setRotation(3);
 }
@@ -212,7 +238,10 @@ void loop()
         txt = current;
       }else if(tag=="frm"){
         from = current;
-        loadText();
+        //digitalWrite(A0,HIGH);
+        //delay(500);
+        //digitalWrite(A0,LOW);
+        loadText(swipeDirection);
       }
    
       j = j + 1;
@@ -254,19 +283,26 @@ void loop()
    } else {
      skipFrame = 0;
      if(p.x - startX > SWIPE){
+      //swipe up
       fingerDown = false;
+      tft.fillScreen(ILI9341_BLACK);
      } else if (startX - p.x > SWIPE ){
+      //swipe down
       fingerDown = false;
      } else if (startY - p.y > SWIPE){
+      //swipe left
+      swipeDirection = 1;
       drawn = 0;
       //Serial.println(a);
       a =a -1;
       fingerDown = false;
      } else if (p.y - startY  > SWIPE){
-     drawn = 0;
-     a = a + 1;
-     //Serial.println(a); 
-     fingerDown = false;
+      //swipe right
+      swipeDirection = 2;
+      drawn = 0;
+      a = a + 1;
+      //Serial.println(a); 
+      fingerDown = false;
      }
      if (a == 0){
       a = 4;
@@ -275,13 +311,13 @@ void loop()
       a = 1;
      }
      if(a==1 && drawn==0){
-      loadTime();
+      loadTime(swipeDirection);
      }else if(a==2 && drawn==0){
-      loadWeather();
+      loadWeather(swipeDirection);
      }else if(a==3 && drawn==0){
-      loadMusic();
-     }else if(a==3 && drawn==0){
-      loadText();
+      loadMusic(swipeDirection);
+     }else if(a==4 && drawn==0){
+      loadText(swipeDirection);
      }
    }
 }
